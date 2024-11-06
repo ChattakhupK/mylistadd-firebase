@@ -52,7 +52,8 @@ const ForminputData = () => {
   console.log(data);
 
   const handleChange = (e) => {
-    console.log(e.target.name, e.target.value);
+    // console.log(e.target.name, e.target.value);
+
     setForm({
       ...form,
       [e.target.name]: e.target.value,
@@ -63,6 +64,7 @@ const ForminputData = () => {
     await addDoc(myaddlistRef, form)
       .then((res) => {
         console.log(res);
+        setForm({ name: "", detail: "", price: "" });
       })
       .catch((err) => console.log(err));
   };
@@ -91,149 +93,170 @@ const ForminputData = () => {
     setForm({});
   };
 
-  console.log(editId);
   return (
-    <div>
-      <table className="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">ADD</th>
-            <th scope="col">
-              <input
-                className="form-control"
-                onChange={(e) => handleChange(e)}
-                type="text"
-                name="name"
-                placeholder="Name"
-              />
-            </th>
-            <th scope="col">
-              <input
-                className="form-control"
-                onChange={(e) => handleChange(e)}
-                type="text"
-                name="detail"
-                placeholder="detail"
-              />
-            </th>
-            <th scope="col">
-              <input
-                className="form-control"
-                onChange={(e) => handleChange(e)}
-                type="number"
-                name="price"
-                placeholder="price"
-              />
-            </th>
-            <th scope="col">
-              <button className="btn btn-primary" onClick={handleAddData}>
-                Add Data
-              </button>
-            </th>
-          </tr>
-        </thead>
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Detail</th>
-            <th scope="col">Price</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item, index) => (
-            <tr key={index}>
-              <th scope="row">{index + 1}</th>
-              <td>
-                {editId === item.id ? (
-                  <>
-                    <input
-                      className="form-control"
-                      onChange={(e) => handleChange(e)}
-                      type="text"
-                      name="name"
-                      value={form.name !== undefined ? form.name : item.name}
-                      placeholder="Name"
-                    />
-                  </>
-                ) : (
-                  item.name
-                )}
-              </td>
-              <td>
-                {editId === item.id ? (
-                  <>
-                    <input
-                      className="form-control"
-                      onChange={(e) => handleChange(e)}
-                      type="text"
-                      name="detail"
-                      value={
-                        form.detail !== undefined ? form.detail : item.detail
-                      }
-                      placeholder="detail"
-                    />
-                  </>
-                ) : (
-                  item.detail
-                )}
-              </td>
-              <td>
-                {editId === item.id ? (
-                  <>
-                    <input
-                      className="form-control"
-                      onChange={(e) => handleChange(e)}
-                      type="number"
-                      name="price"
-                      value={form.price !== undefined ? form.price : item.price}
-                      placeholder="price"
-                    />
-                  </>
-                ) : (
-                  item.price
-                )}
-              </td>
-              <td>
-                {editId === item.id ? (
-                  <>
-                    <button
-                      style={{ marginRight: "5px" }}
-                      className="btn btn-success"
-                      onClick={() => handleSave(item.id)}
-                    >
-                      Save
-                    </button>
-                    <button
-                      className="btn btn-secondary"
-                      onClick={() => handleCancel()}
-                    >
-                      Cancel
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      style={{ marginRight: "5px" }}
-                      className="btn btn-warning"
-                      onClick={() => setEditId(item.id)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => handleDelete(item.id)}
-                    >
-                      Delete
-                    </button>
-                  </>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className=" mt-20 w-5/6 mx-auto">
+      <div className="min-w-20">
+        <div className="table ">
+          <table className="mx-auto shadow-lg  border">
+            <thead>
+              <tr className="bg-gray-50 border-b">
+                <th className="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
+                  <div className="flex items-center justify-center">ID</div>
+                </th>
+                <th className="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
+                  <div className="flex items-center justify-center">Name</div>
+                </th>
+                <th className="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
+                  <div className="flex items-center justify-center">Detail</div>
+                </th>
+                <th className="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
+                  <div className="flex items-center justify-center">Price</div>
+                </th>
+                <th className="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
+                  <div className="flex items-center justify-center">Action</div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="bg-gray-50 text-center">
+                <td className="p-2 border-r">
+                  <input
+                    type="text"
+                    disabled
+                    className=" bg-white text-center text-black w-10 p-1"
+                    value={'-'}
+                  />
+                </td>
+                <td className="p-2 border-r">
+                  <input
+                    type="text"
+                    onChange={(e) => handleChange(e)}
+                    name="name"
+                    className="border p-1"
+                    value={form.name}
+                  />
+                </td>
+                <td className="p-2 border-r">
+                  <input
+                    type="text"
+                    onChange={(e) => handleChange(e)}
+                    name="detail"
+                    className="border p-1"
+                    value={form.detail}
+                  />
+                </td>
+                <td className="p-2 border-r">
+                  <input
+                    type="number"
+                    onChange={(e) => handleChange(e)}
+                    name="price"
+                    className="border p-1"
+                    value={form.price}
+                  />
+                </td>
+                <td className="p-2">
+                  <button
+                    onClick={handleAddData}
+                    className="rounded-sm border border-slate-300 py-2 px-5 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-slate-800 hover:border-slate-800  active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                    type="button"
+                  >
+                    APPLY
+                  </button>
+                </td>
+              </tr>
+              {data.map((item, index) => (
+                <tr
+                  key={index}
+                  className="bg-gray-100 text-center border-b text-sm text-gray-600"
+                >
+                  <td className="p-2 border-r">{index + 1}</td>
+                  <td className="p-2 border-r">
+                    {editId === item.id ? (
+                      <>
+                        <input
+                          className="border p-1"
+                          onChange={(e) => handleChange(e)}
+                          type="text"
+                          name="name"
+                          value={item.name}
+                          placeholder="Name"
+                        />
+                      </>
+                    ) : (
+                      item.name
+                    )}
+                  </td>
+                  <td className="p-2 border-r">
+                    {editId === item.id ? (
+                      <>
+                        <input
+                          className="border p-1"
+                          onChange={(e) => handleChange(e)}
+                          type="text"
+                          name="detail"
+                          value={item.detail}
+                          placeholder="detail"
+                        />
+                      </>
+                    ) : (
+                      item.detail
+                    )}
+                  </td>
+                  <td className="p-2 border-r">
+                    {editId === item.id ? (
+                      <>
+                        <input
+                          className="border p-1"
+                          onChange={(e) => handleChange(e)}
+                          type="number"
+                          name="price"
+                          value={item.price}
+                          placeholder="price"
+                        />
+                      </>
+                    ) : (
+                      item.price
+                    )}
+                  </td>
+                  <td className="p-2 border-r flex gap-1 justify-center">
+                    {editId === item.id ? (
+                      <>
+                        <button
+                          className="rounded-md border bg-green-200 border-slate-300 py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-green-800 hover:border-slate-800  active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                          onClick={() => handleSave(item.id)}
+                        >
+                          Save
+                        </button>
+                        <button
+                          className="rounded-md border bg-gray-200 border-slate-300 py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-gray-800 hover:border-slate-800  active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                          onClick={() => handleCancel()}
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => setEditId(item.id)}
+                          className="rounded-md border bg-blue-200 border-slate-300 py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-blue-800 hover:border-slate-800  active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDelete(item.id)}
+                          className="rounded-md border bg-red-200 no-underline border-slate-300 py-2 px-4 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-red-800 hover:border-slate-800     active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                        >
+                          Remove
+                        </button>
+                      </>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };
